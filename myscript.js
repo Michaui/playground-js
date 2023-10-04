@@ -79,7 +79,8 @@ function game(){
     
     //Define 5 Rounds
     for (i=0; i<5; i++){
-    
+        // "use strict"
+
         //Loop
         console.log('Loop: ',i);
         
