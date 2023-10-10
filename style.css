@@ -1,4 +1,1855 @@
-.test{
-    color: red;
-    background-color: red;
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
 }
+
+#background{
+    height: 100vh; 
+    width: 100%;
+    background: linear-gradient(90deg,#26183b,#923706);
+    /* Y-Scroll blocken, weil Particle Animation nach Ablauf 
+    einer Animation 6% runtergehen -> Auch über Viewport */
+    position: fixed; 
+    /* overflow-y: hidden; */
+    /* position: relative; */
+}
+
+/* Untersützung externe Webbrowser für Handshake*/
+        /* Firefox-Unterstützung */
+        @-moz-keyframes shake {
+            0% {
+                /* Verschiebe Animation */
+                transform: rotate(0);
+                }
+                50% {
+                transform: rotate(15deg);
+                }
+                100% {
+                transform: rotate(0deg);
+            }
+        } 
+        /* Webkit-Unterstützung (Safari und Chrome) */
+        @-webkit-keyframes shake {
+            0% {
+                /* Verschiebe Animation */
+                transform: rotate(0);
+                }
+                50% {
+                transform: rotate(15deg);
+                }
+                100% {
+                transform: rotate(0deg);
+            }
+        }
+        /* OPERA Animation */
+        @-o-keyframes shake {
+            0% {
+                /* Verschiebe Animation */
+                transform: rotate(0);
+                }
+                50% {
+                transform: rotate(15deg);
+                }
+                100% {
+                transform: rotate(0deg);
+            }
+        }   
+        @keyframes shake {
+            0% {
+                /* Verschiebe Animation */
+                transform: rotate(0);
+                }
+                50% {
+                transform: rotate(15deg);
+                }
+                100% {
+                transform: rotate(0deg);
+            }
+        }
+
+#interface{
+    /* Positionierung Effect Background */
+    
+    /* position: absolute; */
+    /* Y-Scroll blocken, weil Particle Animation nach Ablauf 
+    einer Animation 6% runtergehen -> Auch über Viewport */
+    position: fixed; 
+    left: 0;
+    top: 0;
+   
+    /* Breite definieren */
+    height: 100vh; 
+    width: 100%;
+
+    /* Verlauf-Hintergrund gestalten bzw. definieren */
+    background: url("./img/bg_effects.png");
+    background-size: cover; /* Nur für responsive Verhalten notwendig*/
+    background-position: center; /* Nur für responsive Verhalten notwendig*/
+
+
+    #battlefield{
+        
+        #rightside{
+            /* Definition Area */
+            position: absolute;
+            width: 50vw;
+            height: 100%; 
+            top: 33%; 
+            right: -9%; 
+            background: url("./img/c_rock.png") 0 0 no-repeat;
+
+            /* Definition Animation */
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            /* Verbessert die Animationseffizienz, indem der Browser über die geplante Änderung informiert wird. */
+            will-change: transform;
+
+            /* Verrschiebt das Partikel horizontal um einen bestimmten Betrag. */
+            transform: rotate(0deg);
+            /* Ändern des Image-Origin */
+            transform-origin: bottom right;
+            /* Keyframe mit dem Namen shake*/
+            animation-name: shake;
+            /* Verzögert den Start der Animation*/
+            animation-delay: 0.0s;
+            /* Dauer der Animation */
+            animation-duration: 0.9s;
+            /* Abspielrichtung */
+            animation-direction: reverse;
+        }
+        
+
+        #leftside{
+            /* Definition Area */
+            position: absolute;
+            width: 100%;
+            height: 100%; 
+            top: 20%; 
+            left: -15%;
+            background: url("./img/p_rock.png") 0 0 no-repeat;
+
+            /* Definition Animation */
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            /* Verbessert die Animationseffizienz, indem der Browser über die geplante Änderung informiert wird. */
+            will-change: transform;
+
+            /* Verrschiebt das Partikel horizontal um einen bestimmten Betrag. */
+            transform: rotate(15deg);
+            /* Ändern des Image-Origin */
+            transform-origin: bottom left;
+            /* Keyframe mit dem Namen "particle-1"*/
+            animation-name: shake;
+            /* Verzögert den Start der Animation um -287 Sekunden (rückwärts) */
+            animation-delay: 0s;
+            /* Dauer der Animation */
+            animation-duration: 0.9s;
+            /* Abspielrichtung */
+            animation-direction: reverse;
+        }
+    }
+
+    #gameui{
+        position: relative;
+        top: 60px; 
+        height: 90vh;
+
+        /* Für buttonpanel Zentrierung notwendig */
+        display: flex; 
+        justify-content: center;
+
+        & > #lefthealth .playericn{
+            position: absolute;
+            top: 28px; 
+            left: 58px;
+            aspect-ratio: 1;
+            width: 42px;
+        }
+
+        & > #righthealth .playericn{
+            position: absolute;
+            top: 28px; 
+            right: 58px;
+            aspect-ratio: 1;
+            width: 42px;
+        }
+
+        /* left- und righthearts background werden als ::after & ::before definiert, 
+        weil es andernfalls aufgrund des clip-path geschnitten wird */
+        /* left: hearts background*/
+        &::after{
+            content: "";
+            position: absolute;
+            left: 170px;
+            top: 20px;
+            height: 60px;
+            width: 300px;
+            background-color: #eaddff;
+            clip-path: polygon(12% 0, 100% 0%, 88% 100%, 0 100%);
+        }
+
+        /* right: hearts background*/
+        &::before{
+            content: "";
+            position: absolute;
+            right: 170px;
+            top: 20px;
+            height: 60px;
+            width: 300px;
+            background-color: #ffe5e2;
+            /* Bringt das before Element in den Vordergrund */
+            z-index: 1;
+            clip-path: polygon(0 0, 87% 0%, 100% 100%, 12% 100%);
+        }
+
+        #lefthealth{
+            position: absolute;
+            left: 60px;
+            height: 100px;
+            width: 300px;
+            background-color: #190f28;
+            clip-path: polygon(20% 0, 100% 0%, 80% 100%, 0 100%);
+        }
+        
+        #righthealth{
+            position: absolute;
+            right: 60px;
+            height: 100px;
+            width: 300px;
+            background-color: #361515;
+            clip-path: polygon(0 0, 80% 0%, 100% 100%, 20% 100%);
+        }
+
+        #leftheartspanel{
+            position: absolute;
+            top: 20px;
+            width: 220px;
+            height: 60px; 
+            left: 210px;
+            z-index: 2;
+
+            /* hearts */
+            display: flex;
+            align-items: center;
+
+            /* hearts */
+            & > img{
+                float: left;
+                margin: 0 4px;
+                aspect-ratio: 1 / 1;
+                height: 60%;
+
+                &:hover{
+                    transform: scale(115%);
+                }
+            }
+        }
+
+        #rigthheartspanel{
+            position: absolute;
+            top: 20px;
+            width: 220px;
+            height: 60px; 
+            right: 210px;
+            z-index: 2;
+
+            /* hearts */
+            display: flex;
+            align-items: center;
+
+            /* hearts */
+            & > img{
+                float: left;
+                margin: 0 4px;
+                aspect-ratio: 1 / 1;
+                height: 60%;
+
+                &:hover{
+                    transform: scale(115%);
+                }
+            }
+        }
+
+        #buttonpanel{
+            /* position: absolute; */
+            height: 150px;
+            width: 900px; 
+            /* background-color: aliceblue; */
+            /* gameui: display: flex gesetzt, 
+            damit child align-slelf: 
+            flex-end gesetzt werden kann*/
+            align-self: flex-end;
+
+            /*Für die CTAs*/
+            display: flex;
+            justify-content: center;
+
+          
+
+            #leftbtn{
+                position: relative;
+                height: 100%;
+                width: 33.3%;
+                background-color: #190f28;
+                clip-path: polygon(0 0, 70% 0%, 100% 100%, 30% 100%);
+                transition: all 0.3s;
+
+                display: flex;
+
+                &::after{
+                    content: "";
+                    position: absolute;
+                    background: url("./img/stone_hbtn.png")no-repeat;
+                    left: 32%;
+                    top: 10%;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                &:hover{
+                    position: relative;
+                    background-color: #241241;
+                    transform: scale(105%);
+                }
+            }
+
+            #centertbtn{
+                position: relative;
+                height: 100%;
+                width: 33.3%;
+                background-color: #190f28;
+                clip-path: polygon(0 0, 100% 0%, 70% 100%, 30% 100%);
+                transition: all 0.3s;
+                /* 
+                polygon(20% 0, 80% 0%, 50% 100%)
+                margin: -21px -16%;
+                */
+                z-index: 1;
+                /* Nur die Margin in der Mitte ist notwendig, damit sich die Divs überschneiden */
+                margin: 0px -8%;
+
+                &::after{
+                    content: "";
+                    position: absolute;
+                    background: url("./img/sicssor_hbtn.png")no-repeat;
+                    left: 32%;
+                    top: 10%;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                &:hover{
+                    position: relative;
+                    background-color: #241241;
+                    transform: scale(105%);
+                }
+            }
+
+            #rightbtn{
+                position: relative;
+                height: 100%;
+                width: 33.3%;
+                background-color: #190f28;
+                clip-path:  polygon(30% 0, 100% 0%, 70% 100%, 0% 100%);
+                z-index: 2;
+                transition: all 0.3s;
+
+                &::after{
+                    content: "";
+                    position: absolute;
+                    background: url("./img/paper_hbtn.png")no-repeat;
+                    left: 23%;
+                    top: 10%;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                &:hover{
+                    position: relative;
+                    background-color: #241241;
+                    transform: scale(105%);
+                }
+            }
+        }
+    }
+}
+
+/* PARTICEL */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    /* Verbessert die Animationseffizienz, indem der Browser über die geplante Änderung informiert wird. */
+    will-change: transform;
+}
+
+/* Auswahl erstes Kind-Element */
+.particle:nth-child(1) {
+    /* Verrschiebt das Partikel horizontal um einen bestimmten Betrag. */
+    transform: translateX(calc(30px + 100vw));
+    /* Keyframe mit dem Namen "particle-1"*/
+    animation-name: particle-1;
+    /* Verzögert den Start der Animation um -287 Sekunden (rückwärts) */
+    animation-delay: -287s;
+    /* Dauer der Animation */
+    animation-duration: 98s;
+    /* Abspielrichtung */
+    animation-direction: reverse;
+    background: #eb4ecc;
+    height: 30px;
+    width: 30px;
+    /* Position Paricle */
+    top: 47%;
+    left: -30px;
+}
+
+/* Untersützung externe Webbrowser */
+/* Firefox-Unterstützung */
+@-moz-keyframes particle-1 {
+    0% {
+    /* Verschiebe Animation */
+    transform: translate(calc(30px + 100vw), 0);
+    }
+    100% {
+    transform: translate(0, 6vh);
+    }
+}
+
+/* Webkit-Unterstützung (Safari und Chrome) */
+@-webkit-keyframes particle-1 {
+    0% {
+    transform: translate(calc(30px + 100vw), 0);
+    }
+    100% {
+    transform: translate(0, 6vh);
+    }
+}
+
+/* OPERA Animation */
+@-o-keyframes particle-1 {
+    0% {
+    transform: translate(calc(30px + 100vw), 0);
+    }
+    100% {
+    transform: translate(0, 6vh);
+    }
+}
+    
+@keyframes particle-1 {
+    0% {
+    transform: translate(calc(30px + 100vw), 0);
+    }
+    100% {
+    transform: translate(0, 6vh);
+    }
+}
+
+.particle:nth-child(2) {
+    transform: translateX(calc(25px + 100vw));
+    animation-name: particle-2;
+    animation-delay: -41s;
+    animation-duration: 118s;
+    background: #ffbe4d;
+    height: 25px;
+    width: 25px;
+    top: 13%;
+    left: -25px;
+}
+
+@-moz-keyframes particle-2 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+  
+  @-webkit-keyframes particle-2 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+  
+  @-o-keyframes particle-2 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+  
+  @keyframes particle-2 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+  
+.particle:nth-child(3) {
+  transform: translateX(calc(15px + 100vw));
+  animation-name: particle-3;
+  animation-delay: -262s;
+  animation-duration: 120s;
+  animation-direction: reverse;
+  background: #62d8d4;
+  height: 15px;
+  width: 15px;
+  top: 46%;
+  left: -15px;
+}
+
+  @-moz-keyframes particle-3 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 29vh);
+    }
+  }
+
+  @-webkit-keyframes particle-3 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 29vh);
+    }
+  }
+
+  @-o-keyframes particle-3 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 29vh);
+    }
+  }
+
+  @keyframes particle-3 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 29vh);
+    }
+  }
+
+  .particle:nth-child(4) {
+    transform: translateX(calc(13px + 100vw));
+    animation-name: particle-4;
+    animation-delay: -175s;
+    animation-duration: 102s;
+    background: #fee163;
+    height: 13px;
+    width: 13px;
+    top: 65%;
+    left: -13px;
+  }
+
+  @-moz-keyframes particle-4 {
+    0% {
+      transform: translate(calc(13px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 8vh);
+    }
+  }
+
+  @-webkit-keyframes particle-4 {
+    0% {
+      transform: translate(calc(13px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 8vh);
+    }
+  }
+
+  @-o-keyframes particle-4 {
+    0% {
+      transform: translate(calc(13px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 8vh);
+    }
+  }
+
+  @keyframes particle-4 {
+    0% {
+      transform: translate(calc(13px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 8vh);
+    }
+  }
+
+  .particle:nth-child(5) {
+    transform: translateX(calc(24px + 100vw));
+    animation-name: particle-5;
+    animation-delay: -130s;
+    animation-duration: 120s;
+    animation-direction: reverse;
+    background: #5c9cc2;
+    height: 24px;
+    width: 24px;
+    top: 54%;
+    left: -24px;
+  }
+
+  @-moz-keyframes particle-5 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 19vh);
+    }
+  }
+
+  @-webkit-keyframes particle-5 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 19vh);
+    }
+  }
+
+  @-o-keyframes particle-5 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 19vh);
+    }
+  }
+
+  @keyframes particle-5 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 19vh);
+    }
+  }
+
+  .particle:nth-child(6) {
+    transform: translateX(calc(30px + 100vw));
+    animation-name: particle-6;
+    animation-delay: -51s;
+    animation-duration: 76s;
+    background: #5c9cc2;
+    height: 30px;
+    width: 30px;
+    top: 40%;
+    left: -30px;
+  }
+
+  @-moz-keyframes particle-6 {
+    0% {
+      transform: translate(calc(30px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 9vh);
+    }
+  }
+
+  @-webkit-keyframes particle-6 {
+    0% {
+      transform: translate(calc(30px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 9vh);
+    }
+  }
+
+  @-o-keyframes particle-6 {
+    0% {
+      transform: translate(calc(30px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 9vh);
+    }
+  }
+
+  @keyframes particle-6 {
+    0% {
+      transform: translate(calc(30px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 9vh);
+    }
+  }
+
+  .particle:nth-child(7) {
+    transform: translateX(calc(28px + 100vw));
+    animation-name: particle-7;
+    animation-delay: -126s;
+    animation-duration: 90s;
+    animation-direction: reverse;
+    background: #56d2ab;
+    height: 28px;
+    width: 28px;
+    top: 28%;
+    left: -28px;
+  }
+  
+  @-moz-keyframes particle-7 {
+    0% {
+      transform: translate(calc(28px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+
+  @-webkit-keyframes particle-7 {
+    0% {
+      transform: translate(calc(28px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+
+  @-o-keyframes particle-7 {
+    0% {
+      transform: translate(calc(28px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+
+  @keyframes particle-7 {
+    0% {
+      transform: translate(calc(28px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+
+  .particle:nth-child(8) {
+    transform: translateX(calc(15px + 100vw));
+    animation-name: particle-8;
+    animation-delay: -54s;
+    animation-duration: 100s;
+    background: #fee163;
+    height: 15px;
+    width: 15px;
+    top: 71%;
+    left: -15px;
+  }
+
+  @-moz-keyframes particle-8 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 33vh);
+    }
+  }
+
+  @-webkit-keyframes particle-8 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 33vh);
+    }
+  }
+
+  @-o-keyframes particle-8 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 33vh);
+    }
+  }
+
+  @keyframes particle-8 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 33vh);
+    }
+  }
+
+  .particle:nth-child(9) {
+    transform: translateX(calc(15px + 100vw));
+    animation-name: particle-9;
+    animation-delay: -145s;
+    animation-duration: 102s;
+    animation-direction: reverse;
+    background: #5c9cc2;
+    height: 15px;
+    width: 15px;
+    top: 100%;
+    left: -15px;
+  }
+
+  @-moz-keyframes particle-9 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  @-webkit-keyframes particle-9 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  @-o-keyframes particle-9 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  @keyframes particle-9 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  .particle:nth-child(10) {
+    transform: translateX(calc(15px + 100vw));
+    animation-name: particle-10;
+    animation-delay: -106s;
+    animation-duration: 116s;
+    background: #cd98ff;
+    height: 15px;
+    width: 15px;
+    top: 91%;
+    left: -15px;
+  }
+
+  @-moz-keyframes particle-10 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 12vh);
+    }
+  }
+
+  @-webkit-keyframes particle-10 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 12vh);
+    }
+  }
+
+  @-o-keyframes particle-10 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 12vh);
+    }
+  }
+
+  @keyframes particle-10 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 12vh);
+    }
+  }
+
+  .particle:nth-child(11) {
+    transform: translateX(calc(18px + 100vw));
+    animation-name: particle-11;
+    animation-delay: -193s;
+    animation-duration: 72s;
+    animation-direction: reverse;
+    background: #5c9cc2;
+    height: 18px;
+    width: 18px;
+    top: 99%;
+    left: -18px;
+  }
+
+  @-moz-keyframes particle-11 {
+    0% {
+      transform: translate(calc(18px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @-webkit-keyframes particle-11 {
+    0% {
+      transform: translate(calc(18px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @-o-keyframes particle-11 {
+    0% {
+      transform: translate(calc(18px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @keyframes particle-11 {
+    0% {
+      transform: translate(calc(18px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  .particle:nth-child(12) {
+    transform: translateX(calc(15px + 100vw));
+    animation-name: particle-12;
+    animation-delay: -177s;
+    animation-duration: 104s;
+    background: #4ec9eb;
+    height: 15px;
+    width: 15px;
+    top: 89%;
+    left: -15px;
+  }
+
+  @-moz-keyframes particle-12 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+
+  @-webkit-keyframes particle-12 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+
+  @-o-keyframes particle-12 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+
+  @keyframes particle-12 {
+    0% {
+      transform: translate(calc(15px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 10vh);
+    }
+  }
+
+  .particle:nth-child(13) {
+    transform: translateX(calc(22px + 100vw));
+    animation-name: particle-13;
+    animation-delay: -4s;
+    animation-duration: 112s;
+    animation-direction: reverse;
+    background: #ffbe4d;
+    height: 22px;
+    width: 22px;
+    top: 90%;
+    left: -22px;
+  }
+
+  @-moz-keyframes particle-13 {
+    0% {
+      transform: translate(calc(22px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @-webkit-keyframes particle-13 {
+    0% {
+      transform: translate(calc(22px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @-o-keyframes particle-13 {
+    0% {
+      transform: translate(calc(22px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @keyframes particle-13 {
+    0% {
+      transform: translate(calc(22px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  .particle:nth-child(14) {
+    transform: translateX(calc(24px + 100vw));
+    animation-name: particle-14;
+    animation-delay: -180s;
+    animation-duration: 98s;
+    background: #ffbe4d;
+    height: 24px;
+    width: 24px;
+    top: 5%;
+    left: -24px;
+  }
+  
+  @-moz-keyframes particle-14 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 37vh);
+    }
+  }
+
+  @-webkit-keyframes particle-14 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 37vh);
+    }
+  }
+
+  @-o-keyframes particle-14 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 37vh);
+    }
+  }
+
+  @keyframes particle-14 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 37vh);
+    }
+  }
+
+  .particle:nth-child(15) {
+    transform: translateX(calc(20px + 100vw));
+    animation-name: particle-15;
+    animation-delay: -24s;
+    animation-duration: 90s;
+    animation-direction: reverse;
+    background: #cd98ff;
+    height: 20px;
+    width: 20px;
+    top: 26%;
+    left: -20px;
+  }
+
+  @-moz-keyframes particle-15 {
+    0% {
+      transform: translate(calc(20px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 36vh);
+    }
+  }
+
+  @-webkit-keyframes particle-15 {
+    0% {
+      transform: translate(calc(20px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 36vh);
+    }
+  }
+
+  @-o-keyframes particle-15 {
+    0% {
+      transform: translate(calc(20px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 36vh);
+    }
+  }
+
+  @keyframes particle-15 {
+    0% {
+      transform: translate(calc(20px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 36vh);
+    }
+  }
+
+  .particle:nth-child(16) {
+    transform: translateX(calc(25px + 100vw));
+    animation-name: particle-16;
+    animation-delay: -264s;
+    animation-duration: 78s;
+    background: #ff884d;
+    height: 25px;
+    width: 25px;
+    top: 29%;
+    left: -25px;
+  }
+
+  @-moz-keyframes particle-16 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -2vh);
+    }
+  }
+
+  @-webkit-keyframes particle-16 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -2vh);
+    }
+  }
+
+  @-o-keyframes particle-16 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -2vh);
+    }
+  }
+
+  @keyframes particle-16 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -2vh);
+    }
+  }
+
+  .particle:nth-child(17) {
+    transform: translateX(calc(11px + 100vw));
+    animation-name: particle-17;
+    animation-delay: -97s;
+    animation-duration: 70s;
+    animation-direction: reverse;
+    background: #ff908c;
+    height: 11px;
+    width: 11px;
+    top: 88%;
+    left: -11px;
+  }
+
+  @-moz-keyframes particle-17 {
+    0% {
+      transform: translate(calc(11px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 39vh);
+    }
+  }
+
+  @-webkit-keyframes particle-17 {
+    0% {
+      transform: translate(calc(11px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 39vh);
+    }
+  }
+
+  @-o-keyframes particle-17 {
+    0% {
+      transform: translate(calc(11px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 39vh);
+    }
+  }
+
+  @keyframes particle-17 {
+    0% {
+      transform: translate(calc(11px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 39vh);
+    }
+  }
+
+  .particle:nth-child(18) {
+    transform: translateX(calc(19px + 100vw));
+    animation-name: particle-18;
+    animation-delay: -182s;
+    animation-duration: 96s;
+    background: #f77c99;
+    height: 19px;
+    width: 19px;
+    top: 82%;
+    left: -19px;
+  }
+
+  @-moz-keyframes particle-18 {
+    0% {
+      transform: translate(calc(19px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 4vh);
+    }
+  }
+
+  @-webkit-keyframes particle-18 {
+    0% {
+      transform: translate(calc(19px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 4vh);
+    }
+  }
+
+  @-o-keyframes particle-18 {
+    0% {
+      transform: translate(calc(19px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 4vh);
+    }
+  }
+
+  @keyframes particle-18 {
+    0% {
+      transform: translate(calc(19px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 4vh);
+    }
+  }
+
+  .particle:nth-child(19) {
+    transform: translateX(calc(16px + 100vw));
+    animation-name: particle-19;
+    animation-delay: -294s;
+    animation-duration: 96s;
+    animation-direction: reverse;
+    background: #4ec9eb;
+    height: 16px;
+    width: 16px;
+    top: 82%;
+    left: -16px;
+  }
+
+  @-moz-keyframes particle-19 {
+    0% {
+      transform: translate(calc(16px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 34vh);
+    }
+  }
+
+  @-webkit-keyframes particle-19 {
+    0% {
+      transform: translate(calc(16px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 34vh);
+    }
+  }
+
+  @-o-keyframes particle-19 {
+    0% {
+      transform: translate(calc(16px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 34vh);
+    }
+  }
+
+  @keyframes particle-19 {
+    0% {
+      transform: translate(calc(16px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 34vh);
+    }
+  }
+
+  .particle:nth-child(20) {
+    transform: translateX(calc(25px + 100vw));
+    animation-name: particle-20;
+    animation-delay: -105s;
+    animation-duration: 98s;
+    background: #56d2ab;
+    height: 25px;
+    width: 25px;
+    top: 69%;
+    left: -25px;
+  }
+
+  @-moz-keyframes particle-20 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  @-webkit-keyframes particle-20 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  @-o-keyframes particle-20 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  @keyframes particle-20 {
+    0% {
+      transform: translate(calc(25px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  .particle:nth-child(21) {
+    transform: translateX(calc(12px + 100vw));
+    animation-name: particle-21;
+    animation-delay: -57s;
+    animation-duration: 86s;
+    animation-direction: reverse;
+    background: #4ec9eb;
+    height: 12px;
+    width: 12px;
+    top: 82%;
+    left: -12px;
+  }
+
+  @-moz-keyframes particle-21 {
+    0% {
+      transform: translate(calc(12px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 3vh);
+    }
+  }
+
+  @-webkit-keyframes particle-21 {
+    0% {
+      transform: translate(calc(12px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 3vh);
+    }
+  }
+
+  @-o-keyframes particle-21 {
+    0% {
+      transform: translate(calc(12px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 3vh);
+    }
+  }
+
+  @keyframes particle-21 {
+    0% {
+      transform: translate(calc(12px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 3vh);
+    }
+  }
+
+  .particle:nth-child(22) {
+    transform: translateX(calc(27px + 100vw));
+    animation-name: particle-22;
+    animation-delay: -215s;
+    animation-duration: 90s;
+    background: #f77c99;
+    height: 27px;
+    width: 27px;
+    top: 33%;
+    left: -27px;
+  }
+
+  @-moz-keyframes particle-22 {
+    0% {
+      transform: translate(calc(27px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 39vh);
+    }
+  }
+
+  @-webkit-keyframes particle-22 {
+    0% {
+      transform: translate(calc(27px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 39vh);
+    }
+  }
+
+  @-o-keyframes particle-22 {
+    0% {
+      transform: translate(calc(27px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 39vh);
+    }
+  }
+
+  @keyframes particle-22 {
+    0% {
+      transform: translate(calc(27px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 39vh);
+    }
+  }
+
+  .particle:nth-child(23) {
+    transform: translateX(calc(26px + 100vw));
+    animation-name: particle-23;
+    animation-delay: -35s;
+    animation-duration: 78s;
+    animation-direction: reverse;
+    background: #f77c99;
+    height: 26px;
+    width: 26px;
+    top: 76%;
+    left: -26px;
+  }
+
+  @-moz-keyframes particle-23 {
+    0% {
+      transform: translate(calc(26px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 29vh);
+    }
+  }
+
+  @-webkit-keyframes particle-23 {
+    0% {
+      transform: translate(calc(26px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 29vh);
+    }
+  }
+
+  @-o-keyframes particle-23 {
+    0% {
+      transform: translate(calc(26px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 29vh);
+    }
+  }
+
+  @keyframes particle-23 {
+    0% {
+      transform: translate(calc(26px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 29vh);
+    }
+  }
+
+  .particle:nth-child(24) {
+    transform: translateX(calc(13px + 100vw));
+    animation-name: particle-24;
+    animation-delay: -221s;
+    animation-duration: 96s;
+    background: #5c9cc2;
+    height: 13px;
+    width: 13px;
+    top: 89%;
+    left: -13px;
+  }
+
+  @-moz-keyframes particle-24 {
+    0% {
+      transform: translate(calc(13px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 22vh);
+    }
+  }
+
+  @-webkit-keyframes particle-24 {
+    0% {
+      transform: translate(calc(13px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 22vh);
+    }
+  }
+
+  @-o-keyframes particle-24 {
+    0% {
+      transform: translate(calc(13px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 22vh);
+    }
+  }
+
+  @keyframes particle-24 {
+    0% {
+      transform: translate(calc(13px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 22vh);
+    }
+  }
+
+  .particle:nth-child(25) {
+    transform: translateX(calc(29px + 100vw));
+    animation-name: particle-25;
+    animation-delay: -273s;
+    animation-duration: 100s;
+    animation-direction: reverse;
+    background: #fee163;
+    height: 29px;
+    width: 29px;
+    top: 95%;
+    left: -29px;
+  }
+
+  @-moz-keyframes particle-25 {
+    0% {
+      transform: translate(calc(29px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 7vh);
+    }
+  }
+
+  @-webkit-keyframes particle-25 {
+    0% {
+      transform: translate(calc(29px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 7vh);
+    }
+  }
+
+  @-o-keyframes particle-25 {
+    0% {
+      transform: translate(calc(29px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 7vh);
+    }
+  }
+
+  @keyframes particle-25 {
+    0% {
+      transform: translate(calc(29px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 7vh);
+    }
+  }
+
+  .particle:nth-child(26) {
+    transform: translateX(calc(11px + 100vw));
+    animation-name: particle-26;
+    animation-delay: -174s;
+    animation-duration: 60s;
+    background: #ff908c;
+    height: 11px;
+    width: 11px;
+    top: 39%;
+    left: -11px;
+  }
+
+  @-moz-keyframes particle-26 {
+    0% {
+      transform: translate(calc(11px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 37vh);
+    }
+  }
+
+  @-webkit-keyframes particle-26 {
+    0% {
+      transform: translate(calc(11px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 37vh);
+    }
+  }
+
+  @-o-keyframes particle-26 {
+    0% {
+      transform: translate(calc(11px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 37vh);
+    }
+  }
+
+  @keyframes particle-26 {
+    0% {
+      transform: translate(calc(11px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 37vh);
+    }
+  }
+
+  .particle:nth-child(27) {
+    transform: translateX(calc(16px + 100vw));
+    animation-name: particle-27;
+    animation-delay: -79s;
+    animation-duration: 96s;
+    animation-direction: reverse;
+    background: #56d2ab;
+    height: 16px;
+    width: 16px;
+    top: 61%;
+    left: -16px;
+  }
+
+  @-moz-keyframes particle-27 {
+    0% {
+      transform: translate(calc(16px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 26vh);
+    }
+  }
+
+  @-webkit-keyframes particle-27 {
+    0% {
+      transform: translate(calc(16px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 26vh);
+    }
+  }
+
+  @-o-keyframes particle-27 {
+    0% {
+      transform: translate(calc(16px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 26vh);
+    }
+  }
+
+  @keyframes particle-27 {
+    0% {
+      transform: translate(calc(16px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 26vh);
+    }
+  }
+
+  .particle:nth-child(28) {
+    transform: translateX(calc(17px + 100vw));
+    animation-name: particle-28;
+    animation-delay: -284s;
+    animation-duration: 70s;
+    background: #f77c99;
+    height: 17px;
+    width: 17px;
+    top: 19%;
+    left: -17px;
+  }
+
+  @-moz-keyframes particle-28 {
+    0% {
+      transform: translate(calc(17px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 26vh);
+    }
+  }
+
+  @-webkit-keyframes particle-28 {
+    0% {
+      transform: translate(calc(17px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 26vh);
+    }
+  }
+
+  @-o-keyframes particle-28 {
+    0% {
+      transform: translate(calc(17px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 26vh);
+    }
+  }
+
+  @keyframes particle-28 {
+    0% {
+      transform: translate(calc(17px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 26vh);
+    }
+  }
+
+  .particle:nth-child(29) {
+    transform: translateX(calc(24px + 100vw));
+    animation-name: particle-29;
+    animation-delay: -37s;
+    animation-duration: 118s;
+    animation-direction: reverse;
+    background: #fee163;
+    height: 24px;
+    width: 24px;
+    top: 80%;
+    left: -24px;
+  }
+
+  @-moz-keyframes particle-29 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @-webkit-keyframes particle-29 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @-o-keyframes particle-29 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  @keyframes particle-29 {
+    0% {
+      transform: translate(calc(24px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, 40vh);
+    }
+  }
+
+  .particle:nth-child(30) {
+    transform: translateX(calc(28px + 100vw));
+    animation-name: particle-30;
+    animation-delay: -279s;
+    animation-duration: 114s;
+    background: #ff884d;
+    height: 28px;
+    width: 28px;
+    top: 73%;
+    left: -28px;
+  }
+
+  @-moz-keyframes particle-30 {
+    0% {
+      transform: translate(calc(28px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  @-webkit-keyframes particle-30 {
+    0% {
+      transform: translate(calc(28px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+
+  @-o-keyframes particle-30 {
+    0% {
+      transform: translate(calc(28px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+  
+  @keyframes particle-30 {
+    0% {
+      transform: translate(calc(28px + 100vw), 0);
+    }
+    100% {
+      transform: translate(0, -4vh);
+    }
+  }
+  
