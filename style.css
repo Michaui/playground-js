@@ -75,8 +75,8 @@
     /* Y-Scroll blocken, weil Particle Animation nach Ablauf 
     einer Animation 6% runtergehen -> Auch über Viewport */
     position: fixed; 
-    left: 0;
-    top: 0;
+    /* left: 0;
+    top: 0; */
    
     /* Breite definieren */
     height: 100vh; 
@@ -159,7 +159,7 @@
         display: flex; 
         justify-content: center;
 
-        & > #lefthealth .playericn{
+        & #lefthealth .playericn{
             position: absolute;
             top: 28px; 
             left: 58px;
@@ -167,7 +167,7 @@
             width: 42px;
         }
 
-        & > #righthealth .playericn{
+        & #righthealth .playericn{
             position: absolute;
             top: 28px; 
             right: 58px;
@@ -235,7 +235,7 @@
 
             /* hearts */
             & > img{
-                float: left;
+                /* float: left; */
                 margin: 0 4px;
                 aspect-ratio: 1 / 1;
                 height: 60%;
@@ -260,7 +260,7 @@
 
             /* hearts */
             & > img{
-                float: left;
+                /* float: right; */
                 margin: 0 4px;
                 aspect-ratio: 1 / 1;
                 height: 60%;
@@ -285,8 +285,7 @@
             display: flex;
             justify-content: center;
 
-          
-
+            
             #leftbtn{
                 position: relative;
                 height: 100%;
