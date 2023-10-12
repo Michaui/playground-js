@@ -51,11 +51,25 @@
                 pointP: playerPoints, TO pointP: pointP,
                 pointC: computerPoints,TO pointC: pointC,
 */
+// const background = document.getElementById('#background');
 
+
+
+// Erforderlich, dass die Global sind weil in Funktion playRound() und gameover() verwendet wird. 
+const dialog = document.querySelector('#dialog');
+const dialogtext = document.querySelector("h2"); 
+
+//againBtn vor dem Spiel ausblenden. Am ende des Spiels anzeigen. 
+const againbtn = document.querySelector('.againBtn');
+againbtn.style.display='none'; 
+
+//Splashscreen kurz anzeigen 
+splashscreen(); 
 
 // Set default start variables
 let pointP = 5,
     pointC = 5;
+
 
 // 01: Funktion, die aufgerufen wird, wenn ein Button im Panel geklickt wird
 function handleButtonClick(buttonId) {
@@ -64,9 +78,11 @@ function handleButtonClick(buttonId) {
     const leftside = document.querySelector('#leftside');
     const rightside = document.querySelector('#rightside');
 
-     // Animation stoppen
+    // Animation stoppen bis Timeout() es wieder startet. 
     leftside.style.animation = 'none';
     rightside.style.animation = 'none';
+    dialog.style.display='none';
+    
 
     // Every loop computer choose a random selection. 
     //save result from getcomputerChoice to computerSelection var.
@@ -96,9 +112,6 @@ function handleButtonClick(buttonId) {
     pointP = decision.pointP;
     pointC = decision.pointC;
     
-    //If someone have no life, game ends. 
-    gameover(pointP,pointC);
-
     // Timeout, um die Animation nach einer Verzögerung wieder starten wenn kein Spieler auf 0 ist. 
     if(pointC == 0 || pointP == 0){
         // Animation stoppen
@@ -106,7 +119,7 @@ function handleButtonClick(buttonId) {
             // Animation erneut starten
             leftside.style.animation = 'none';
             rightside.style.animation = 'none';
-            }, 3000);
+            }, 2000);
     }else{
         setTimeout(() => {
             // Animation erneut starten
@@ -114,8 +127,13 @@ function handleButtonClick(buttonId) {
             rightside.style.animation = 'shake 0.9s linear infinite reverse';
             leftside.style.backgroundImage = 'url("./img/p_rock.png")';
             rightside.style.backgroundImage = 'url("./img/c_rock.png")';
+            dialogtext.innerHTML = "Select next one"; 
+            dialog.style.display='flex';
             }, 2000);
         };
+
+    //If someone have no life, game ends. 
+    gameover(pointP,pointC);
 }
   
 
@@ -152,6 +170,12 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
     if (computerSelection == "rock" && playerSelection == "rock" || 
             computerSelection == "paper" && playerSelection == "paper" || 
             computerSelection == "scissor" && playerSelection == "scissor"){
+                //Stelle den Modal wieder kurz dar, mit Inhalt ob WIN, LOSE oder DRAW
+                setTimeout(() => {
+                    dialogtext.innerHTML = "DRAW"; 
+                    dialog.style.display='flex';
+                }, 1000);
+
                 return {
                     pointP: pointP,
                     pointC: pointC,
@@ -175,6 +199,11 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
                 else {
                     lh[0].style.display="none";
                 }
+                setTimeout(() => {
+                    dialogtext.innerHTML = "LOST"; 
+                    dialog.style.display='flex';
+                }, 1000);
+
                 return {
                     pointP: pointP - 1,
                     pointC: pointC,
@@ -198,6 +227,11 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
                 else {
                     rh[0].style.display="none";
                 }
+                setTimeout(() => {
+                    dialogtext.innerHTML = "WIN"; 
+                    dialog.style.display='flex';
+                }, 1000);
+
                 return {
                     pointP: pointP,
                     pointC: pointC - 1,
@@ -217,16 +251,40 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
 
 
 function gameover(statP,statC){
+    const buttonPanel = document.querySelector('#buttonpanel');
+
     switch(true){
         case statP == 0:
-                // alert("Schade! Du hast verloren.");
-                console.log("Spielende - Du hast verloren!");
+            // console.log("Spielende - Du hast verloren!");
+            // Passe die Höhe und Breite im letzten ausgeführten Dialog an
+            dialog.style.cssText ="width: 30%; height: 17%;"
+            dialogtext.innerHTML = 'Haha! Loooser!'; 
+            dialog.style.display="flex"; 
+            buttonPanel.style.display="none";
+            againbtn.style.display='flex'; 
             break;
         case statC == 0:
-                // alert("Glückwunsch! Du hast gewonnen!");
-                console.log("Spielende - Du hast gewonnen!");
+            // console.log("Spielende - Du hast gewonnen!");
+             // Passe die Höhe und Breite im letzten ausgeführten Dialog an
+             dialog.style.cssText ="width: 30%; height: 17%;"
+             dialog.style.display="flex"; 
+             dialogtext.innerHTML = "Winner winner, chicken dinner"; 
+             buttonPanel.style.display="none";
+             againbtn.style.display='flex'; 
             break;
         default:
             console.log("Spiel läuft weiter.");
     }
 };
+
+function splashscreen (){
+    const loadscreen = document.createElement('div');
+    const body = document.body;
+    
+    loadscreen.classList.add('loadscreen');
+    loadscreen.textContent = 'SNIG, SNAG, SNUG!';
+    body.append(loadscreen);
+    setTimeout (() => {
+        loadscreen.classList.remove('loadscreen');
+    },2000);
+}
