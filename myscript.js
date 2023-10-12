@@ -129,7 +129,7 @@ function handleButtonClick(buttonId) {
             rightside.style.backgroundImage = 'url("./img/c_rock.png")';
             dialogtext.innerHTML = "Select next one"; 
             dialog.style.display='flex';
-            }, 2000);
+            }, 1500);
         };
 
     //If someone have no life, game ends. 
@@ -174,7 +174,7 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
                 setTimeout(() => {
                     dialogtext.innerHTML = "DRAW"; 
                     dialog.style.display='flex';
-                }, 1000);
+                }, 800);
 
                 return {
                     pointP: pointP,
@@ -184,6 +184,10 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
     } else if (computerSelection == "paper" && playerSelection == "rock" || 
             computerSelection == "scissor" && playerSelection == "paper" || 
             computerSelection == "rock" && playerSelection == "scissor"){
+                setTimeout(() => {
+                    dialogtext.innerHTML = "LOST"; 
+                    dialog.style.display='flex';
+                }, 800);
                 // Delete one life and return results
                 if(pointP == 4){
                     lh[4].style.display="none";
@@ -199,10 +203,6 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
                 else {
                     lh[0].style.display="none";
                 }
-                setTimeout(() => {
-                    dialogtext.innerHTML = "LOST"; 
-                    dialog.style.display='flex';
-                }, 1000);
 
                 return {
                     pointP: pointP - 1,
@@ -212,6 +212,10 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
     } else if(computerSelection == "rock" && playerSelection == "paper" || 
             computerSelection == "paper" && playerSelection == "scissor" || 
             computerSelection == "scissor" && playerSelection == "rock"){
+                setTimeout(() => {
+                    dialogtext.innerHTML = "WIN"; 
+                    dialog.style.display='flex';
+                }, 800);
                 // Delete one life and return results
                 if(pointC == 4){
                     rh[4].style.display="none";
@@ -227,10 +231,6 @@ function playRound(playerSelection, computerSelection, pointP, pointC) {
                 else {
                     rh[0].style.display="none";
                 }
-                setTimeout(() => {
-                    dialogtext.innerHTML = "WIN"; 
-                    dialog.style.display='flex';
-                }, 1000);
 
                 return {
                     pointP: pointP,
@@ -255,22 +255,28 @@ function gameover(statP,statC){
 
     switch(true){
         case statP == 0:
-            // console.log("Spielende - Du hast verloren!");
-            // Passe die Höhe und Breite im letzten ausgeführten Dialog an
-            dialog.style.cssText ="width: 30%; height: 17%;"
-            dialogtext.innerHTML = 'Haha! Loooser!'; 
-            dialog.style.display="flex"; 
-            buttonPanel.style.display="none";
-            againbtn.style.display='flex'; 
+            // Timout notwendig da es sonst von playRound (setTimout Dialog) überschrieben wird
+            setTimeout(() => {
+                // console.log("Spielende - Du hast verloren!");
+                // Passe die Höhe und Breite im letzten ausgeführten Dialog an
+                dialog.style.cssText ="width: 30%; height: 17%;"
+                dialogtext.innerHTML = 'Haha! Loooser!'; 
+                dialog.style.display="flex"; 
+                buttonPanel.style.display="none";
+                againbtn.style.display='flex'; 
+            }, 810);
             break;
         case statC == 0:
-            // console.log("Spielende - Du hast gewonnen!");
-             // Passe die Höhe und Breite im letzten ausgeführten Dialog an
-             dialog.style.cssText ="width: 30%; height: 17%;"
-             dialog.style.display="flex"; 
-             dialogtext.innerHTML = "Winner winner, chicken dinner"; 
-             buttonPanel.style.display="none";
-             againbtn.style.display='flex'; 
+            // Timout notwendig da es sonst von playRound (setTimout Dialog) überschrieben wird
+            setTimeout(() => {
+                // console.log("Spielende - Du hast gewonnen!");
+                // Passe die Höhe und Breite im letzten ausgeführten Dialog an
+                dialog.style.cssText ="width: 30%; height: 17%;"
+                dialog.style.display="flex"; 
+                dialogtext.innerHTML = "Winner winner, chicken dinner"; 
+                buttonPanel.style.display="none";
+                againbtn.style.display='flex'; 
+            }, 810);
             break;
         default:
             console.log("Spiel läuft weiter.");
