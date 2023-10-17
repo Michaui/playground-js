@@ -128,7 +128,7 @@ h2 {
             width: 50vw;
             height: 100%; 
             top: 33%; 
-            right: -9%; 
+            right: calc(0vw - 15%); 
             background: url("./img/c_rock.png") 0 0 no-repeat;
 
             /* Definition Animation */
